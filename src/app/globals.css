@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+:root {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --background: #F5F5F5;
+  --foreground: #000000;
+  --text-secondary: #666666;
+  --accent: #4CD964;
+  --input-border: #007AFF;
+  --button-bg: #000000;
+  --button-text: #FFFFFF;
+  --card-bg: #FFFFFF;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #121212;
+    --foreground: #FFFFFF;
+    --text-secondary: #AAAAAA;
+    --accent: #4CD964;
+    --input-border: #007AFF;
+    --button-bg: #000000;
+    --button-text: #FFFFFF;
+    --card-bg: #1E1E1E;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* Button Styles */
+button, 
+.button {
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  transition: all 0.2s ease;
+}
+
+button:hover,
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Input Styles */
+input, 
+select, 
+textarea {
+  border-color: var(--input-border);
+  border-radius: 10px;
+}
+
+input:focus, 
+select:focus, 
+textarea:focus {
+  border-color: var(--input-border);
+  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2);
+}
+
+/* Card Styles */
+.card {
+  background-color: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+/* Accent Elements */
+.accent {
+  color: var(--accent);
+}
+
+.accent-bg {
+  background-color: var(--accent);
+}
+
+/* Layout Spacing */
+.container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Hide scrollbar but keep functionality */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
