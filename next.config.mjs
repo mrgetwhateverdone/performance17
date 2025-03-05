@@ -1,5 +1,4 @@
-import type { NextConfig } from "next";
-
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   basePath: process.env.NODE_ENV === "production" ? "/performance17" : "",
   output: "export",
@@ -9,4 +8,4 @@ const nextConfig = {
   /* config options here */
 };
 
-export default nextConfig;
+export default nextConfig; 

@@ -305,39 +305,41 @@ function WorkoutPlanContent() {
   
   useEffect(() => {
     // Check if we have a stored workout plan in localStorage
-    try {
-      const storedPlan = localStorage.getItem('workoutPlan');
-      if (storedPlan) {
-        const parsedPlan = JSON.parse(storedPlan);
-        setWorkoutPlan(parsedPlan);
-        
-        // Initialize progress tracking for the stored plan
-        const initialProgress: Record<string, ExerciseProgress> = {};
-        parsedPlan.forEach((week: WeekPlan, weekIndex: number) => {
-          week.workouts.forEach((workout, workoutIndex) => {
-            workout.exercises.forEach((exercise, exerciseIndex) => {
-              const exerciseId = `w${weekIndex+1}d${workoutIndex+1}e${exerciseIndex+1}`;
-              
-              // Initialize set weights array based on number of sets
-              const setWeights: SetWeight[] = Array(exercise.sets).fill(0).map(() => ({
-                weight: '',
-                completed: false
-              }));
-              
-              initialProgress[exerciseId] = {
-                completed: false,
-                setWeights,
-                previousSetWeights: null,
-              };
+    if (typeof window !== 'undefined') {
+      try {
+        const storedPlan = localStorage.getItem('workoutPlan');
+        if (storedPlan) {
+          const parsedPlan = JSON.parse(storedPlan);
+          setWorkoutPlan(parsedPlan);
+          
+          // Initialize progress tracking for the stored plan
+          const initialProgress: Record<string, ExerciseProgress> = {};
+          parsedPlan.forEach((week: WeekPlan, weekIndex: number) => {
+            week.workouts.forEach((workout, workoutIndex) => {
+              workout.exercises.forEach((exercise, exerciseIndex) => {
+                const exerciseId = `w${weekIndex+1}d${workoutIndex+1}e${exerciseIndex+1}`;
+                
+                // Initialize set weights array based on number of sets
+                const setWeights: SetWeight[] = Array(exercise.sets).fill(0).map(() => ({
+                  weight: '',
+                  completed: false
+                }));
+                
+                initialProgress[exerciseId] = {
+                  completed: false,
+                  setWeights,
+                  previousSetWeights: null,
+                };
+              });
             });
           });
-        });
-        setExerciseProgress(initialProgress);
-        return; // Exit early since we loaded from localStorage
+          setExerciseProgress(initialProgress);
+          return; // Exit early since we loaded from localStorage
+        }
+      } catch (error) {
+        console.error('Failed to load workout plan from localStorage:', error);
+        // Continue with normal plan generation if localStorage fails
       }
-    } catch (error) {
-      console.error('Failed to load workout plan from localStorage:', error);
-      // Continue with normal plan generation if localStorage fails
     }
     
     // If no stored plan, generate a new one from URL parameters

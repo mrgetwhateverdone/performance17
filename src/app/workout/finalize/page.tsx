@@ -185,10 +185,12 @@ function FinalizePlanContent() {
     }
     
     // Store the updated plan in localStorage
-    try {
-      localStorage.setItem('workoutPlan', JSON.stringify(workoutPlan));
-    } catch (error) {
-      console.error('Failed to store workout plan:', error);
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem('workoutPlan', JSON.stringify(workoutPlan));
+      } catch (error) {
+        console.error('Failed to store workout plan:', error);
+      }
     }
     
     // Navigate to the workout plan page with the original parameters
