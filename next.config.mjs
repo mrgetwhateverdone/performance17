@@ -7,6 +7,7 @@ const nextConfig = {
   },
   assetPrefix: process.env.NODE_ENV === "production" ? "/performance17" : "",
   /* config options here */
+  // Added comment to trigger a new deployment
 };
 
 export default nextConfig;
