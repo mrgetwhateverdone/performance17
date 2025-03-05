@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -36,22 +36,8 @@ interface CustomExercise {
 // Mock workout data generator (simplified version of the one in plan page)
 const generateWorkoutPlan = (
   sport: string,
-  workoutType: string,
-  height: number,
-  weight: number,
-  _position?: string
+  workoutType: string
 ): WeekPlan[] => {
-  // Determine body type category
-  const isTall = height >= 76; // 76 inches or more
-  const isHeavy = weight >= 231; // 231 lbs or more
-  
-  // Calculate body type but we don't use it in this simplified version
-  let _bodyType = '';
-  if (isHeavy && isTall) _bodyType = 'heavy-tall';
-  else if (isHeavy && !isTall) _bodyType = 'heavy-short';
-  else if (!isHeavy && !isTall) _bodyType = 'light-short';
-  else _bodyType = 'light-tall';
-  
   // Generate 6 weeks of workouts (3 workouts per week)
   const weeks: WeekPlan[] = [];
   
@@ -119,6 +105,14 @@ const generateWorkoutPlan = (
 };
 
 export default function FinalizePlan() {
+  return (
+    <Suspense fallback={<div className="flex justify-center items-center min-h-screen">Loading...</div>}>
+      <FinalizePlanContent />
+    </Suspense>
+  );
+}
+
+function FinalizePlanContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [workoutPlan, setWorkoutPlan] = useState<WeekPlan[]>([]);
@@ -136,12 +130,9 @@ export default function FinalizePlan() {
     // Get parameters from URL
     const sport = searchParams.get('sport') || '';
     const workoutType = searchParams.get('workoutType') || '';
-    const height = parseInt(searchParams.get('height') || '0', 10);
-    const weight = parseInt(searchParams.get('weight') || '0', 10);
-    const position = searchParams.get('position') || undefined;
     
     // Generate workout plan
-    const plan = generateWorkoutPlan(sport, workoutType, height, weight, position);
+    const plan = generateWorkoutPlan(sport, workoutType);
     setWorkoutPlan(plan);
   }, [searchParams]);
   

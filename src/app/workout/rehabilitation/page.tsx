@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -107,32 +107,30 @@ export default function RehabilitationPage() {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
-  useEffect(() => {
-    checkAuthorization();
-  }, []);
-
-  const checkAuthorization = () => {
+  const checkAuthorization = useCallback(() => {
     try {
       // Allow access if either a workout is completed OR a workout is in progress
       // This enables users to access rehabilitation exercises during their workout
       const workoutCompleted = localStorage.getItem('workoutCompleted') === 'true';
       const workoutInProgress = true; // Always allow access during workout
       
-      setIsAuthorized(workoutCompleted || workoutInProgress);
-      setIsLoading(false);
-      
-      // If not authorized, redirect after a delay
-      if (!workoutCompleted && !workoutInProgress) {
-        setTimeout(() => {
-          router.push('/workout/plan');
-        }, 3000);
+      if (workoutCompleted || workoutInProgress) {
+        setIsAuthorized(true);
+      } else {
+        setIsAuthorized(false);
+        router.push('/workout/plan');
       }
-    } catch {
-      // If localStorage is not available, default to allowing access
-      setIsAuthorized(true);
+    } catch (error) {
+      console.error('Error checking authorization:', error);
+      setIsAuthorized(false);
+    } finally {
       setIsLoading(false);
     }
-  };
+  }, [router]);
+
+  useEffect(() => {
+    checkAuthorization();
+  }, [checkAuthorization]);
 
   if (isLoading) {
     return (
