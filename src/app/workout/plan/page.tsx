@@ -307,7 +307,7 @@ function WorkoutPlanContent() {
     // Check if we have a stored workout plan in localStorage
     if (typeof window !== 'undefined') {
       try {
-        const storedPlan = typeof window !== "undefined" && localStorage.getItem('workoutPlan');
+        const storedPlan = localStorage.getItem('workoutPlan');
         if (storedPlan) {
           const parsedPlan = JSON.parse(storedPlan);
           setWorkoutPlan(parsedPlan);
@@ -395,7 +395,7 @@ function WorkoutPlanContent() {
       // Set localStorage flag to indicate a workout has been completed
       // This will be used to control access to the rehabilitation page
       try {
-        typeof window !== "undefined" && localStorage.setItem('workoutCompleted', 'true');
+        localStorage.setItem('workoutCompleted', 'true');
       } catch (error) {
         console.error('Failed to set localStorage:', error);
       }

@@ -187,7 +187,7 @@ function FinalizePlanContent() {
     // Store the updated plan in localStorage
     if (typeof window !== 'undefined') {
       try {
-        typeof window !== "undefined" && localStorage.setItem('workoutPlan', JSON.stringify(workoutPlan));
+        localStorage.setItem('workoutPlan', JSON.stringify(workoutPlan));
       } catch (error) {
         console.error('Failed to store workout plan:', error);
       }
