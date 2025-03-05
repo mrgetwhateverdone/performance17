@@ -111,7 +111,7 @@ export default function RehabilitationPage() {
     try {
       // Allow access if either a workout is completed OR a workout is in progress
       // This enables users to access rehabilitation exercises during their workout
-      const workoutCompleted = localStorage.getItem('workoutCompleted') === 'true';
+      const workoutCompleted = typeof window !== "undefined" && localStorage.getItem('workoutCompleted') === 'true';
       const workoutInProgress = true; // Always allow access during workout
       
       if (workoutCompleted || workoutInProgress) {
